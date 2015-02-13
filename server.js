@@ -1,4 +1,6 @@
-var http = require('http');
+var express = require('express');
+var server = express();	//Use express framework
+
 var port = process.env.PORT || 1337;
 //Connects to the mongodb database
 var mongoose = require('mongoose');
@@ -15,33 +17,15 @@ var entry = mongoose.model('Entry', EntrySchema);
 db.on('error', console.error.bind(console, 'Connection Error'));
 db.once('open', function(callback){
 	console.log('success');
-	/*
-	var message = new entry({
-		entryName : 'introString',
-		entryData : 'Hello world!'
-	});
-
-	var interest = new entry({
-		entryName : 'interest',
-		entryData : 'Learn cool new things!'
-	});
-
-	message.save(function(err, message){
-		if(err) return console.error(err);
-		console.log(message);
-	});
-
-	interest.save(function(err, interest){
-		if(err) return console.error(err);
-		console.log(interest);
-	});
-	*/
 });
-	
-http.createServer(function(req, res) {
+
+server.get('/', function(request,response){
 	entry.find({ entryName : 'introString'}, function(err, docs){
 		if(err){console.log("error!")};
-		res.writeHead(200, { 'Content-Type': 'text/plain' });
-		res.end(docs[0]['entryData']);
+		response.send(docs[0]['entryData']);
 	});
-}).listen(port);
+});
+
+server.listen(port,function(){
+	console.log(port);
+});
