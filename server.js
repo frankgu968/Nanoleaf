@@ -8,9 +8,10 @@ var db = mongoose.connection;	//Get the connection object
 
 
 http.createServer(function(req, res) {
-	db.on('error', console.error.bind(console, 'Connection Error'));
+	db.on('error', console.log('Connection Error'));
 	db.once('open', function(callback){
-			var EntrySchema = new Schema({
+		console.log('success');
+		var EntrySchema = new Schema({
 			entryName: String,
 			entryData: String
 		});
