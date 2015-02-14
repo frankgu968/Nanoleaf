@@ -1,0 +1,23 @@
+doctype html
+html(ng-app)
+	head
+	title= title
+	link(rel='stylesheet', href='/stylesheets/style.css')
+	script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.min.js")
+	script(src="/javascripts/controller.js")
+	body
+		script
+			include script.js
+		block content
+			div(ng-controller="myCtrl")
+				h1= title
+				p My Objectives:
+				ul
+					li(ng-repeat="entry in docs") {{entry.entryData}}
+			
+			div(ng-controller="exptationCtrl")
+				p What are expectations that you have from me?
+				ul
+					li(ng-repeat="expectation in expectations") {{expectations.entryData}}
+				input#user(type='TEXT' size=40)
+				input#submit(type='button' value="Submit")
