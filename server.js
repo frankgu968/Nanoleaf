@@ -13,16 +13,26 @@ var EntrySchema = new mongoose.Schema({
 });
 var entry = mongoose.model('Entry', EntrySchema);
 
-
 db.on('error', console.error.bind(console, 'Connection Error'));
 db.once('open', function(callback){
 	console.log('success');
 });
 
+server.set('view engine','jade');
+
 server.get('/', function(request,response){
 	entry.find({ entryName : 'introString'}, function(err, docs){
 		if(err){console.log("error!")};
-		response.send(docs[0]['entryData']);
+		response.render('template', {
+			title: docs[0]['entryData']
+		})
+	});
+});
+
+server.get('/data', function(request, response) {
+	entry.find({ entryName : 'interest'}, function(err, docs){
+		if(err){console.log("error!")};
+		response.json(docs);
 	});
 });
 
