@@ -7,33 +7,40 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://Frank:frankgu968@ds060977.mongolab.com:60977/MongoLab-a');
 
 var db = mongoose.connection;	//Get the connection object
+//Define database schemas
 var EntrySchema = new mongoose.Schema({
 	entryName: String,
 	entryData: String
 });
 var entry = mongoose.model('Entry', EntrySchema);
 
+//Database connection 
 db.on('error', console.error.bind(console, 'Connection Error'));
 db.once('open', function(callback){
 	console.log('success');
 });
 
+//Use the body-parser to parser the incoming POST data
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({
 	extended : true
 }));
 
+//Use the jade templating engine
 server.set('view engine','jade');
 
+//Routing information
+//Primary route
 server.get('/', function(request,response){
 	entry.find({ entryName : 'introString'}, function(err, docs){
 		if(err){console.log("error!")};
 		response.render('template', {
 			title: docs[0]['entryData']
-		})
+		});
 	});
 });
 
+//Response when website AngularJS asks for 'objectives'
 server.get('/data', function(request, response) {
 	entry.find({ entryName : 'interest'}, function(err, docs){
 		if(err){console.log("error!")};
@@ -42,6 +49,7 @@ server.get('/data', function(request, response) {
 	
 });
 
+//Response when website AngularJS asks for 'expectation'
 server.get('/dataE',function(request,response){
 	entry.find({entryName : 'expectation'},function(err,docs){
 		if(err){console.log('DataE route error!')};
@@ -49,10 +57,9 @@ server.get('/dataE',function(request,response){
 	});
 });
 
+//Server response to the AngularJS POST request
 server.post('/rcv',function(request,response){
-	console.log("received");
 	var data = request.body.message;
-	console.log(data);
 	
 	var expectation = new entry({
 		entryName : 'expectation',
@@ -65,6 +72,7 @@ server.post('/rcv',function(request,response){
 	});
 });
 
+//Listen on the system's environment port
 server.listen(port,function(){
 	console.log(port);
 });
