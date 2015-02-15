@@ -1,7 +1,6 @@
 var express = require('express');
-var bodyParser = require('body-parser');
-
 var server = express();	//Use express framework
+
 var port = process.env.PORT || 1337;
 //Connects to the mongodb database
 var mongoose = require('mongoose');
@@ -19,11 +18,6 @@ db.once('open', function(callback){
 	console.log('success');
 });
 
-server.use(bodyParser.json());
-server.use(bodyParser.urlencoded({
-	extended : true
-}));
-
 server.set('view engine','jade');
 
 server.get('/', function(request,response){
@@ -39,30 +33,6 @@ server.get('/data', function(request, response) {
 	entry.find({ entryName : 'interest'}, function(err, docs){
 		if(err){console.log("error!")};
 		response.json(docs);
-	});
-	
-});
-
-server.get('/dataE',function(request,response){
-	entry.find({entryName : 'expectation'},function(err,docs){
-		if(err){console.log('DataE route error!')};
-		response.json(docs);
-	});
-});
-
-server.post('/rcv',function(request,response){
-	console.log("received");
-	var data = request.body.message;
-	console.log(data);
-	
-	var expectation = new entry({
-		entryName : 'expectation',
-		entryData : data
-	});
-	
-	expectation.save(function(err, expectation){
-		if(err) return console.error(err);
-		console.log(expectation);
 	});
 });
 
