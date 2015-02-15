@@ -1,0 +1,16 @@
+{
+  "name": "NanoleafSite",
+  "version": "1.0.0",
+  "description": "Proof of concept for bidirectional Azure cloud-based framework",
+  "private" : true,
+  "author" : {
+	"name" : "Frank Gu",
+	"email" : "frankgu968@live.cn"
+  },
+  "dependencies": {
+    "express": "^4.11.2",
+    "body-parser":"^1.12.0",
+	"jade" : "^1.9.2",
+	"mongoose" : "^3.8.23"
+  }
+}

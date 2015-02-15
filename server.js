@@ -1,6 +1,5 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-
 var server = express();	//Use express framework
 var port = process.env.PORT || 1337;
 //Connects to the mongodb database
